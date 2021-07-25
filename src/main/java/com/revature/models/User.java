@@ -1,96 +1,96 @@
 package com.revature.models;
 
 public class User {
-	private int user_id;
-	private String userName;
-	private String password;
-	private String firstName;
-	private String lastName;
-	private String userEmail;
-	private String userRole;
-	private int userRoleID;
+	private int ers_user_id;
+	private String ers_username;
+	private String ers_password;
+	private String user_first_name;
+	private String user_last_name;
+	private String user_email;
+	private String user_role;
+	private int user_role_id;
 	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public int getErs_user_id() {
+		return ers_user_id;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setErs_user_id(int ers_user_id) {
+		this.ers_user_id = ers_user_id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getErs_username() {
+		return ers_username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setErs_username(String ers_username) {
+		this.ers_username = ers_username;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getErs_password() {
+		return ers_password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setErs_password(String ers_password) {
+		this.ers_password = ers_password;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getUser_first_name() {
+		return user_first_name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setUser_first_name(String user_first_name) {
+		this.user_first_name = user_first_name;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getUser_last_name() {
+		return user_last_name;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setUser_last_name(String user_last_name) {
+		this.user_last_name = user_last_name;
 	}
 
-	public String getUserEmail() {
-		return userEmail;
+	public String getUser_email() {
+		return user_email;
 	}
 
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
 	}
 
-	public String getUserRole() {
-		return userRole;
+	public String getUser_role() {
+		return user_role;
 	}
 
-	public void setUserRole(String userRole) {
-		this.userRole = userRole;
+	public void setUser_role(String user_role) {
+		this.user_role = user_role;
 	}
 
-	public int getUserRoleID() {
-		return userRoleID;
+	public int getUser_role_id() {
+		return user_role_id;
 	}
 
-	public void setUserRoleID(int userRoleID) {
-		this.userRoleID = userRoleID;
+	public void setUser_role_id(int user_role_id) {
+		this.user_role_id = user_role_id;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((userEmail == null) ? 0 : userEmail.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
-		result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
-		result = prime * result + userRoleID;
-		result = prime * result + user_id;
+		result = prime * result + ((ers_password == null) ? 0 : ers_password.hashCode());
+		result = prime * result + ers_user_id;
+		result = prime * result + ((ers_username == null) ? 0 : ers_username.hashCode());
+		result = prime * result + ((user_email == null) ? 0 : user_email.hashCode());
+		result = prime * result + ((user_first_name == null) ? 0 : user_first_name.hashCode());
+		result = prime * result + ((user_last_name == null) ? 0 : user_last_name.hashCode());
+		result = prime * result + ((user_role == null) ? 0 : user_role.hashCode());
+		result = prime * result + user_role_id;
 		return result;
 	}
 
@@ -103,49 +103,42 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (firstName == null) {
-			if (other.firstName != null)
+		if (ers_password == null) {
+			if (other.ers_password != null)
 				return false;
-		} else if (!firstName.equals(other.firstName))
+		} else if (!ers_password.equals(other.ers_password))
 			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
+		if (ers_user_id != other.ers_user_id)
+			return false;
+		if (ers_username == null) {
+			if (other.ers_username != null)
 				return false;
-		} else if (!lastName.equals(other.lastName))
+		} else if (!ers_username.equals(other.ers_username))
 			return false;
-		if (password == null) {
-			if (other.password != null)
+		if (user_email == null) {
+			if (other.user_email != null)
 				return false;
-		} else if (!password.equals(other.password))
+		} else if (!user_email.equals(other.user_email))
 			return false;
-		if (userEmail == null) {
-			if (other.userEmail != null)
+		if (user_first_name == null) {
+			if (other.user_first_name != null)
 				return false;
-		} else if (!userEmail.equals(other.userEmail))
+		} else if (!user_first_name.equals(other.user_first_name))
 			return false;
-		if (userName == null) {
-			if (other.userName != null)
+		if (user_last_name == null) {
+			if (other.user_last_name != null)
 				return false;
-		} else if (!userName.equals(other.userName))
+		} else if (!user_last_name.equals(other.user_last_name))
 			return false;
-		if (userRole == null) {
-			if (other.userRole != null)
+		if (user_role == null) {
+			if (other.user_role != null)
 				return false;
-		} else if (!userRole.equals(other.userRole))
+		} else if (!user_role.equals(other.user_role))
 			return false;
-		if (userRoleID != other.userRoleID)
-			return false;
-		if (user_id != other.user_id)
+		if (user_role_id != other.user_role_id)
 			return false;
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "User [user_id=" + user_id + ", userName=" + userName + ", password=" + password + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", userEmail=" + userEmail + ", userRole=" + userRole
-				+ ", userRoleID=" + userRoleID + "]";
-	}
-	
-	
+
 }

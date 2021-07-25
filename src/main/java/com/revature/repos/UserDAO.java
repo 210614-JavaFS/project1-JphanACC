@@ -8,7 +8,7 @@ public interface UserDAO {
 
 	public List<User> findAll();
 	
-	public User findUser(String username, String password);
+	public User findUser(String email, String password);
 	public boolean addUser(User user);
 	
 }
