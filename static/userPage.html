@@ -16,36 +16,126 @@
 </head>
 
 <body onload="checkSessions()">
-    <div class="container-fluid" style="padding:20vh 0 0 0">
+    <div class="container" style="padding:20vh 0 0 0">
         <div class="row">
             <div class="col">
                 <div class="d-flex justify-content-center">
                     <h1>Welcome to the User's Reimbursement Page!</h1>
-                    <button id="logoutButton" class="btn btn-primary">Log out</button>
+
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <!-- User Details Section -->
+            <div class="col-sm-5 employee-row">
+                <div class="row">
+                    <!-- details page -->
+                    <div class="d-flex justify-content-center">
+                        <h3 class="welcome-employee"></h3>
+                    </div>
+                    <div class="justify-content-center">
+                        <span>User ID: </span>
+                        <span id="employeeID"></span> <br>
+                        <span>User First Name: </span>
+                        <span id="employeeFirstName"></span> <br>
+                        <span>User Last Name: </span>
+                        <span id="employeeLastName"></span> <br>
+                        <span>User Email: </span>
+                        <span id="employeeEmail"></span> <br>
+                        <button id="logoutButton" class="btn btn-primary">Log out</button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- The Ticket Section -->
+            <div class="col-md-5 employee-row">
+                <div class="row">
+                    <div class="col">
+                        <div class="justify-content-center">
+                            <!-- Title -->
+                            <div class="row">
+                                <p>List of your Submitted Reimbursement Tickets</p>
+                            </div>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newTicketModal"> New Ticket</button>
+                            <!-- Table -->
+                            <div class="row">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-sm-2">Ticket ID</th>
+                                            <th class="col-sm-2">Reimburse Amount</th>
+                                            <th class="col-sm-2">Ticket Status</th>
+                                            <th class="col-sm-3">Ticket Description</th>
+                                            <th class="col-sm-2">Ticket Author</th>
+                                            <th class="col-sm-2">Ticket Resolver</th>
+                                            <th class="col-sm-2">Ticket Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ticketBody">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manager -->
+            <div class="row manager-row">
+                <div class="col">
+                    <div class="d-flex justify-content-center">
+                        <h1>I am Manager!</h1>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <!-- Employee -->
-        <div class="row employee-row">
-            <div class="col">
-                <div class="d-flex justify-content-center">
-                    <h1>I am employee</h1>
 
+        <!-- New Ticket Modal -->
+        <div class="modal" id="newTicketModal" tabindex="-1" role="dialog" aria-labelledby="newTicketModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Create Your New Imbursement Request here</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <form id="newTicketForm">
+                        <div class="modal-body">
+                            <p>
+                                <label for="usertype">Select Ticket Type:</label>
+                                <select class="form-select" id="ticketType">
+                                    <option selected>Please Select Your Ticket Type</option>
+                                    <option value="1">Lodging</option>
+                                    <option value="2">Travel</option>
+                                    <option value="3">Food</option>
+                                    <option value="4">Other</option>
+                                </select>
+                            </p>
+                            <p>
+                                <label for="amount">Money Amount:</label>
+                                <input type="number" id="amountReim" class="form-control" name="amountReim" step="0.01" placeholder=" Enter your amount " required>
+                            </p>
+                            <p>
+                                <label for="description ">Ticket Description:</label>
+                                <input type="textArea" id="descriptionReim" class="form-control" name="descriptionReim " maxlength="250 " minlength="2 " placeholder="Enter Your Description (max amount of characters is 250) " required>
+                            </p>
+
+                            <div class="modal-footer ">
+                                <button type="button " class="bttn-fill bttn-sm bttn-danger bttn-no-outline " data-bs-dismiss="modal ">Close</button>
+
+                            </div>
+                        </div>
+                    </form>
+                    <button class="bttn-fill bttn-sm bttn-primary bttn-no-outline " id="newTicketButton">Submit Request</button>
                 </div>
             </div>
         </div>
 
-        <!-- Manager -->
-        <div class="row manager-row">
-            <div class="col">
-                <div class="d-flex justify-content-center">
-                    <h1>I am Manager!</h1>
-                </div>
-            </div>
-        </div>
-
-        <script src="./js/ejs.js"></script>
-        <script src="./js/userPage.js"></script>
+        <script src="./js/ejs.js "></script>
+        <script src="./js/userPage.js "></script>
 </body>
 
 </html>

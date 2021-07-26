@@ -1,11 +1,13 @@
 package com.revature.repos;
 
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,14 +33,13 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User findUser(String email, String password) {
+	public User findUser(String email) {
 		
 		try (Connection conn = ConnectionUtils.getConnection()){
-			String sql = "SELECT * FROM ers_users WHERE user_email = ? AND ers_password = ?";
+			String sql = "SELECT * FROM ers_users WHERE user_email = ?";
 			PreparedStatement statement = conn.prepareStatement(sql);
 			
 			statement.setString(1, email);
-			statement.setString(2, password);
 			
 			ResultSet result = statement.executeQuery();
 			User user = new User();
@@ -82,9 +83,16 @@ public class UserDAOImpl implements UserDAO {
 			
 			PreparedStatement statement = conn.prepareStatement(sql);
 		
+			//encrypt password
+			String normalUserPassword = user.getErs_password();
+			int workload = 12;
+			String salt = BCrypt.gensalt(workload);
+			String hashed_password = BCrypt.hashpw(normalUserPassword, salt);
+			System.out.println(hashed_password);
+			
 			int index = 0;
 			statement.setString(++index, user.getErs_username());
-			statement.setString(++index, user.getErs_password());
+			statement.setString(++index, hashed_password);
 			statement.setString(++index, user.getUser_first_name());
 			statement.setString(++index, user.getUser_last_name());
 			statement.setString(++index, user.getUser_email());

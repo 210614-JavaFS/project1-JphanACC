@@ -1,17 +1,24 @@
 const URL = "http://localhost:8080/project1/user/";
 
 let logoutButton = document.getElementById("logoutButton");
+let newTicketButton = document.getElementById("newTicketButton");
 
 logoutButton.onclick = logoutUser;
+newTicketButton.onclick = newTicket;
 
 //NOTE. User Data is
 let userData;
 
 $('div.employee-row').hide();
 $('div.manager-row').hide();
+$("#amountReim").blur(function() {
+    this.value = parseFloat(this.value).toFixed(2);
+});
+let employee_id_global = 0;
 
+//NOTE. Check Session
 async function checkSessions() {
-    let response = await fetch(URL);
+    let response = await fetch(URL + 'check');
     console.log(response.status);
     console.log('Hello');
 
@@ -26,8 +33,16 @@ async function checkSessions() {
         userData = userFromBackend;
         console.log(userData.user_role_id);
 
+        console.log(userData);
         if (userData.user_role_id == 1) {
             $('div.employee-row').fadeIn();
+            $('.welcome-employee').text(`Welcome back, ${userData.ers_username}`);
+            $('#employeeID').text(userData.ers_user_id);
+            $('#employeeFirstName').text(userData.user_first_name);
+            $('#employeeLastName').text(userData.user_last_name);
+            $('#employeeEmail').text(userData.user_email);
+
+            retrieveEmployeeTicket(userData.ers_user_id);
         }
         if (userData.user_role_id == 2) {
             $('div.manager-row').fadeIn();
@@ -36,8 +51,8 @@ async function checkSessions() {
     }
 }
 
-
-//functions
+//NOTE. USer features
+//logout
 async function logoutUser() {
     let response = await fetch(URL + "userLogout");
 
@@ -45,5 +60,64 @@ async function logoutUser() {
         location.href = './index.html';
     } else {
         console.log("woops something is wrong on backend.")
+    }
+
+    checkSessions();
+}
+
+//newTicket
+async function newTicket() {
+    let responseUser = await fetch(URL);
+    if (responseUser.status == 404) {
+        console.log("Error: can't retrieved user Data...");
+    }
+
+    if (responseUser.status == 201) {
+        //catch response JSON data
+        let userFromBackend = await responseUser.json();
+        userData = userFromBackend;
+    }
+
+
+    let ticketForm = {
+        reimb_type_id: document.getElementById("ticketType").value,
+        reimb_amount: document.getElementById("amountReim").value,
+        reimb_description: document.getElementById("descriptionReim").value,
+        reimb_author: userData.ers_user_id,
+    }
+    console.log(`User ID in ticket form is: ${ticketForm.reimb_author}. type ID is ${ticketForm.reimb_type_id}. Amount is ${ticketForm.reimb_amount}. Description is ${ticketForm.reimb_description}`);
+
+
+    let response = await fetch(URL + 'employee', {
+        method: 'POST',
+        body: JSON.stringify(ticketForm)
+    })
+
+    if (response.status === 201) {
+        console.log("New Ticket submission is succesful");
+        alert("Your ticket is submitted!");
+
+    } else {
+        console.log('New Ticket submission failed');
+        alert("Your ticket failed to submit!");
+    }
+}
+
+async function retrieveEmployeeTicket() {
+    let userID = 11;
+    console.log("I'm here");
+    console.log(URL + 'employee/' + userID);
+
+    let responseTicket = await fetch(URL + 'employee/' + userID)
+
+    if (responseTicket.status == 200) {
+        console.log('I got status 200');
+
+        console.log(await responseTicket.text());
+        let reimbList = await responseTicket.json();
+        console.log('Got reimblist object');
+    } else {
+        console.log(`Can't get response. Status is ${response.status}`);
+
     }
 }

@@ -12,7 +12,7 @@ public class UserService {
 		return userDao.addUser(user);
 	}
 	
-	public User findUser(String email, String password) {
-		return userDao.findUser(email, password);
+	public User findUser(String email) {
+		return userDao.findUser(email);
 	}
 }

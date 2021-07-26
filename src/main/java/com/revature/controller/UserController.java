@@ -10,12 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.User;
 import com.revature.services.UserService;
+
 
 public class UserController {
 
@@ -50,8 +52,6 @@ public class UserController {
 		BufferedReader reader = request.getReader();
 		StringBuilder stringBuilder = new StringBuilder();
 		String line = reader.readLine();
-		RequestDispatcher reqDispatch = null;
-		PrintWriter printWriter = response.getWriter();
 
 		while (line != null) {
 			stringBuilder.append(line);
@@ -63,13 +63,17 @@ public class UserController {
 		String inputEmail = userObjectInput.getUser_email();
 		String inputPassword = userObjectInput.getErs_password();
 		
-		User retrievedUser = userService.findUser(inputEmail, inputPassword);
+		User retrievedUser = userService.findUser(inputEmail);
+		String retrievedHash = retrievedUser.getErs_password();
+		
+		boolean password_verified = false;
+		password_verified = BCrypt.checkpw(inputPassword, retrievedHash);
 		
 		if (retrievedUser.getUser_email() == null) {
 			System.out.println("Error: Account not found...");
 			response.setStatus(404);
 			return false;
-		} else if (retrievedUser.getUser_email().equals(inputEmail) && retrievedUser.getErs_password().equals(inputPassword)) {
+		} else if (retrievedUser.getUser_email().equals(inputEmail) && password_verified) {
 			System.out.println("Login is successful!");
 			response.setStatus(201);
 			
@@ -92,8 +96,8 @@ public class UserController {
 		}
 	}
 	
-	public User findUser(String email, String password) {
-		User retrievedUser = userService.findUser(email, password);
+	public User findUser(String email) {
+		User retrievedUser = userService.findUser(email);
 		
 		if (retrievedUser==null) {
 			System.out.println("Can't find user");

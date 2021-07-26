@@ -73,10 +73,20 @@ async function loginUser() {
 
     if (response.status === 201) {
         console.log("User Login is successful");
-        location.href = './userPage.html';
+        document.location.href = './userPage.html';
 
     } else {
         console.log('User Login failed');
         alert("Login failed!");
+    }
+}
+
+async function checkSessions() {
+    let response = await fetch(URL);
+    console.log(response.status);
+
+
+    if (response.status == 201) {
+        document.location.href = './userPage.html';
     }
 }
