@@ -26,6 +26,7 @@
             </div>
         </div>
         <div class="row">
+            <!-- Employee -->
             <!-- User Details Section -->
             <div class="col-sm-5 employee-row">
                 <div class="row">
@@ -42,10 +43,9 @@
                         <span id="employeeLastName"></span> <br>
                         <span>User Email: </span>
                         <span id="employeeEmail"></span> <br>
-                        <button id="logoutButton" class="btn btn-primary">Log out</button>
+                        <button id="logoutEmployeeButton" class="btn btn-primary">Log out</button>
                     </div>
                 </div>
-
             </div>
             <!-- The Ticket Section -->
             <div class="col-md-5 employee-row">
@@ -82,16 +82,28 @@
             </div>
 
             <!-- Manager -->
-            <div class="row manager-row">
-                <div class="col">
+            <div class="col-sm-5 manager-row">
+                <div class="row">
+                    <!-- details page -->
                     <div class="d-flex justify-content-center">
-                        <h1>I am Manager!</h1>
+                        <h3 class="welcome-manager"></h3>
+                    </div>
+                    <div class="justify-content-center">
+                        <span>User ID: </span>
+                        <span id="managerID"></span> <br>
+                        <span>User First Name: </span>
+                        <span id="managerFirstName"></span> <br>
+                        <span>User Last Name: </span>
+                        <span id="managerLastName"></span> <br>
+                        <span>User Email: </span>
+                        <span id="managerEmail"></span> <br>
+                        <button id="logoutManagerButton" class="btn btn-primary">Log out</button>
                     </div>
                 </div>
             </div>
 
         </div>
-        <!-- Employee -->
+
 
         <!-- New Ticket Modal -->
         <div class="modal" id="newTicketModal" tabindex="-1" role="dialog" aria-labelledby="newTicketModalLabel" aria-hidden="true">

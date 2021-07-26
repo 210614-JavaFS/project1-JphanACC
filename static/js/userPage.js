@@ -1,9 +1,11 @@
 const URL = "http://localhost:8080/project1/user/";
 
-let logoutButton = document.getElementById("logoutButton");
+let logoutEButton = document.getElementById("logoutEmployeeButton");
+let logoutMButton = document.getElementById("logoutManagerButton");
 let newTicketButton = document.getElementById("newTicketButton");
 
-logoutButton.onclick = logoutUser;
+logoutEButton.onclick = logoutUser;
+logoutMButton.onclick = logoutUser;
 newTicketButton.onclick = newTicket;
 
 //NOTE. User Data is
@@ -14,7 +16,7 @@ $('div.manager-row').hide();
 $("#amountReim").blur(function() {
     this.value = parseFloat(this.value).toFixed(2);
 });
-let employee_id_global = 0;
+
 
 //NOTE. Check Session
 async function checkSessions() {
@@ -46,6 +48,11 @@ async function checkSessions() {
         }
         if (userData.user_role_id == 2) {
             $('div.manager-row').fadeIn();
+            $('.welcome-manager').text(`Welcome back, ${userData.ers_username}`);
+            $('#managerID').text(userData.ers_user_id);
+            $('#managerFirstName').text(userData.user_first_name);
+            $('#managerLastName').text(userData.user_last_name);
+            $('#managerEmail').text(userData.user_email);
         }
 
     }
@@ -138,7 +145,7 @@ function populateEmployeeTicketList(data) {
         row.appendChild(tdReimbID);
 
         let tdReimbAmount = document.createElement("td");
-        tdReimbAmount.innerText = ticket["reimb_amount"];
+        tdReimbAmount.innerText = "$" + ticket["reimb_amount"];
         row.appendChild(tdReimbAmount);
 
         let tdReimbStatus = document.createElement("td");
