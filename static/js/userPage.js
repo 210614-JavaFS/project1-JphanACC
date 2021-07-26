@@ -103,21 +103,69 @@ async function newTicket() {
     }
 }
 
+//retrieve Employee tickets
 async function retrieveEmployeeTicket() {
     let userID = 11;
-    console.log("I'm here");
-    console.log(URL + 'employee/' + userID);
 
     let responseTicket = await fetch(URL + 'employee/' + userID)
 
     if (responseTicket.status == 200) {
-        console.log('I got status 200');
 
-        console.log(await responseTicket.text());
         let reimbList = await responseTicket.json();
-        console.log('Got reimblist object');
+        console.log(reimbList);
+        populateEmployeeTicketList(reimbList);
+
     } else {
         console.log(`Can't get response. Status is ${response.status}`);
 
+    }
+}
+
+//NOTE. Other features
+function populateEmployeeTicketList(data) {
+    console.log("I'm here");
+    console.log(data);
+    let ticketBody = document.getElementById("ticketEmployeeBody");
+
+    ticketBody.innerHTML = "";
+
+    for (let ticket of data) {
+        let row = document.createElement("tr");
+        console.log(ticket)
+
+        let tdReimbID = document.createElement("td");
+        tdReimbID.innerText = ticket["reimb_id"];
+        row.appendChild(tdReimbID);
+
+        let tdReimbAmount = document.createElement("td");
+        tdReimbAmount.innerText = ticket["reimb_amount"];
+        row.appendChild(tdReimbAmount);
+
+        let tdReimbStatus = document.createElement("td");
+        tdReimbStatus.innerText = ticket["reimbStatus"];
+        row.appendChild(tdReimbStatus);
+
+        let tdReimbDesc = document.createElement("td");
+        tdReimbDesc.innerText = ticket["reimb_description"];
+        row.appendChild(tdReimbDesc);
+
+        let tdReimbAuthor = document.createElement("td");
+        tdReimbAuthor.innerText = ticket["reimbAuthor"];
+        row.appendChild(tdReimbAuthor);
+
+        //Ticket Resolver
+        let tdReimbResolver = document.createElement("td");
+        if (ticket["reimbResolver"] == null) {
+            tdReimbResolver.innerText = "No Manager resolved this yet";
+        } else {
+            tdReimbResolver.innerText = ticket["reimbResolver"];
+        }
+        row.appendChild(tdReimbResolver);
+
+        let tdReimbTicketType = document.createElement("td");
+        tdReimbTicketType.innerText = ticket["reimbType"];
+        row.appendChild(tdReimbTicketType);
+
+        ticketBody.appendChild(row);
     }
 }
