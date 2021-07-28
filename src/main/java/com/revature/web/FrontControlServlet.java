@@ -131,7 +131,27 @@ public class FrontControlServlet extends HttpServlet {
 					
 					break;
 				case "manager":
-					
+					if (urlUserSection.length == 1) {
+						//retrieve all tickets
+						if (request.getMethod().equals("GET")) {
+							reimbController.retrieveAllTickets(response);
+							System.out.println("Servlet Manager hits RetrievelAllTicket Servlet route successfully");
+							log.info("Servlet Manager hits RetrievelAllTicket Servlet route successfully");
+						} 
+						
+					} else if (urlUserSection.length >= 2) {
+						//URI: project1/user/manager/1
+						if (request.getMethod().equals("GET")) {
+							System.out.println("Route hit. TicketID: " + urlUserSection[1] 
+									+ ". ManagerID: " + urlUserSection[2]
+									+ ". Status ID: " + urlUserSection[3]
+											);
+//							reimbController.findTicketsFromEmployee(response, urlUserSection[1].toLowerCase());
+							reimbController.editTicket(response, urlUserSection[1], urlUserSection[2], urlUserSection[3]);
+							System.out.println("Servlet Manager hits editTicket route successfully");
+							log.info("Servlet Manager hits editTicket route successfully");
+						}
+					}
 					break;
 					
 				case "userLogout":

@@ -17,4 +17,12 @@ public class ReimbService {
 	public List<Reimbursement> getReimbFromOneEmployee(int userID) {
 		return reimbDao.getReimbFromOneEmployee(userID);
 	}
+	
+	public List<Reimbursement> getAllReimb() {
+		return reimbDao.getAllReimb();
+	}
+	
+	public boolean editReimbStatus(int reimbID, int managerID, int statusID) {
+		return reimbDao.editReimbStatus(reimbID, managerID, statusID);
+	}
 }

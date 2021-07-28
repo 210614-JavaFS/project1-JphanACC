@@ -33,12 +33,10 @@ async function checkSessions() {
         //catch response JSON data
         let userFromBackend = await response.json();
         userData = userFromBackend;
-        console.log(userData.user_role_id);
 
-        console.log(userData);
         if (userData.user_role_id == 1) {
             $('div.employee-row').fadeIn();
-            $('.welcome-employee').text(`Welcome back, ${userData.ers_username}`);
+            $('#employeeUserName').text(userData.ers_username);
             $('#employeeID').text(userData.ers_user_id);
             $('#employeeFirstName').text(userData.user_first_name);
             $('#employeeLastName').text(userData.user_last_name);
@@ -53,6 +51,8 @@ async function checkSessions() {
             $('#managerFirstName').text(userData.user_first_name);
             $('#managerLastName').text(userData.user_last_name);
             $('#managerEmail').text(userData.user_email);
+
+            retrieveAllTickets(userData.ers_user_id);
         }
 
     }
@@ -111,15 +111,13 @@ async function newTicket() {
 }
 
 //retrieve Employee tickets
-async function retrieveEmployeeTicket() {
-    let userID = 11;
+async function retrieveEmployeeTicket(userID) {
 
-    let responseTicket = await fetch(URL + 'employee/' + userID)
+    let responseTicket = await fetch(URL + 'employee/' + userID);
 
     if (responseTicket.status == 200) {
 
         let reimbList = await responseTicket.json();
-        console.log(reimbList);
         populateEmployeeTicketList(reimbList);
 
     } else {
@@ -128,10 +126,24 @@ async function retrieveEmployeeTicket() {
     }
 }
 
+//retrieve all Tickets
+async function retrieveAllTickets(managerID) {
+
+    let responseTicket = await fetch(URL + 'manager');
+    if (responseTicket.status == 200) {
+        console.log('Did I hit?');
+
+        let reimbList = await responseTicket.json();
+        populateManagerTicketTable(reimbList, managerID);
+        console.log(reimbList);
+
+    } else {
+        console.log(`Can't get response. Status is ${response.status}`);
+    }
+}
+
 //NOTE. Other features
 function populateEmployeeTicketList(data) {
-    console.log("I'm here");
-    console.log(data);
     let ticketBody = document.getElementById("ticketEmployeeBody");
 
     ticketBody.innerHTML = "";
@@ -163,7 +175,7 @@ function populateEmployeeTicketList(data) {
         //Ticket Resolver
         let tdReimbResolver = document.createElement("td");
         if (ticket["reimbResolver"] == null) {
-            tdReimbResolver.innerText = "No Manager resolved this yet";
+            tdReimbResolver.innerText = "Waiting for Manager...";
         } else {
             tdReimbResolver.innerText = ticket["reimbResolver"];
         }
@@ -175,4 +187,98 @@ function populateEmployeeTicketList(data) {
 
         ticketBody.appendChild(row);
     }
+}
+
+function populateManagerTicketTable(data, managerID) {
+    let ticketBody = document.getElementById("ticketManagerBody");
+
+    ticketBody.innerHTML = "";
+
+    for (let ticket of data) {
+        let row = document.createElement("tr");
+
+        let tdReimbID = document.createElement("td");
+        tdReimbID.innerText = ticket["reimb_id"];
+        row.appendChild(tdReimbID);
+
+        let tdReimbAmount = document.createElement("td");
+        tdReimbAmount.innerText = "$" + ticket["reimb_amount"];
+        row.appendChild(tdReimbAmount);
+
+        let tdReimbStatus = document.createElement("td");
+        tdReimbStatus.innerText = ticket["reimbStatus"];
+        row.appendChild(tdReimbStatus);
+
+        let tdReimbDesc = document.createElement("td");
+        tdReimbDesc.innerText = ticket["reimb_description"];
+        row.appendChild(tdReimbDesc);
+
+        let tdReimbAuthor = document.createElement("td");
+        tdReimbAuthor.innerText = ticket["reimbAuthor"];
+        row.appendChild(tdReimbAuthor);
+
+        //Ticket Resolver
+        console.log(`Got reimbResolver ID: ${ticket["reimbResolver"]}`);
+
+        let tdReimbResolver = document.createElement("td");
+        if (ticket["reimbResolver"] == null) {
+            tdReimbResolver.innerText = "No Manager resolved this yet";
+        } else {
+            tdReimbResolver.innerText = ticket["reimbResolver"];
+        }
+        row.appendChild(tdReimbResolver);
+
+        let tdReimbTicketType = document.createElement("td");
+        tdReimbTicketType.innerText = ticket["reimbType"];
+        row.appendChild(tdReimbTicketType);
+
+        //Approve
+        let tdReimbApprove = document.createElement("td");
+        let approveButton = document.createElement("button");
+        approveButton.setAttribute("class", "bttn-fill bttn-sm bttn-success bttn-no-outline");
+        approveButton.innerHTML = "Approve";
+        // approveButton.onclick = approveTicket(ticket["reimb_id"], managerID);
+
+        approveButton.addEventListener('click', function() {
+            editTicket(ticket["reimb_id"], managerID, 1);
+        });
+
+        tdReimbApprove.appendChild(approveButton);
+        row.appendChild(tdReimbApprove);
+
+        //deny
+        let tdReimbDeny = document.createElement("td");
+        let denyButton = document.createElement("button");
+        denyButton.setAttribute("class", "bttn-fill bttn-sm bttn-danger bttn-no-outline");
+        denyButton.innerHTML = "Deny";
+        // denyButton.onclick = approveTicket(ticket["reimb_id"], managerID);
+
+        denyButton.addEventListener('click', function() {
+            editTicket(ticket["reimb_id"], managerID, 2);
+        });
+
+        tdReimbDeny.appendChild(denyButton);
+        row.appendChild(tdReimbDeny);
+
+        ticketBody.appendChild(row);
+
+        //logic of creating modal
+    }
+}
+
+
+async function editTicket(ticketID, managerID, ticketStatus) {
+    console.log(`Ticket ID is ${ticketID}, ManagerID is ${managerID}, Status is ${ticketStatus}`);
+    console.log(`${URL}manager/${ticketID}/${managerID}/${ticketStatus}`)
+    let response = await fetch(URL + `manager/${ticketID}/${managerID}/${ticketStatus}`);
+
+    if (response.status === 201) {
+        console.log("Edit Ticket request is succesful gone through");
+        alert("Edit Ticket request is succesful gone through");
+        setTimeout("location.reload(true);", 5);
+    } else {
+        console.log('Edit Ticket request failed...');
+        alert("Edit Ticket request failed...");
+    }
+
 }

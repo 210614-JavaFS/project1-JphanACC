@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Reimbursement;
 import com.revature.services.ReimbService;
@@ -50,7 +51,6 @@ public class ReimbController {
 	}
 
 	public void findTicketsFromEmployee(HttpServletResponse response, String userID) throws IOException {
-		// TODO Auto-generated method stub
 		int convertedID = Integer.parseInt(userID);
 		List<Reimbursement> reimbList = reimbService.getReimbFromOneEmployee(convertedID);
 		
@@ -58,6 +58,30 @@ public class ReimbController {
 		response.getWriter().print(json);
 		
 		response.setStatus(200);
+	}
+
+	public void retrieveAllTickets(HttpServletResponse response) throws IOException {
+		List<Reimbursement> reimbList = reimbService.getAllReimb();
+		
+		String json = objectMapper.writeValueAsString(reimbList);
+		response.getWriter().print(json);
+		response.setStatus(200);
+	}
+
+	public void editTicket(HttpServletResponse response, String string, String string2, String string3) {
+		int ticketID = Integer.parseInt(string);
+		int managerID = Integer.parseInt(string2);
+		int statusID = Integer.parseInt(string3);
+		
+		if (reimbService.editReimbStatus(ticketID, managerID, statusID)) {
+			System.out.println("Ticket edit is successful");
+			log.info("Ticket edit is successful");
+			response.setStatus(201);
+		} else {
+			System.out.println("Ticket edit is not successful...");
+			log.error("Ticket edit is not successful...");
+			response.setStatus(406);
+		}
 	}
 
 

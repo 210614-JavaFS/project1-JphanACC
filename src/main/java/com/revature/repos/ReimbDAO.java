@@ -11,6 +11,6 @@ public interface ReimbDAO {
 	public List<Reimbursement> getReimbFromOneEmployee(int userID);
 	
 	public List<Reimbursement> getAllReimb();
-	
-	public boolean editReimbStatus(int reimID);
+
+	public boolean editReimbStatus(int reimbID, int managerID, int statusID);
 }
