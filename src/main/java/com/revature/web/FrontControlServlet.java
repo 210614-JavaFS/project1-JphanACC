@@ -140,17 +140,32 @@ public class FrontControlServlet extends HttpServlet {
 						} 
 						
 					} else if (urlUserSection.length >= 2) {
+						//edit Ticket
 						//URI: project1/user/manager/1
-						if (request.getMethod().equals("GET")) {
+						if (request.getMethod().equals("PUT")) {
 							System.out.println("Route hit. TicketID: " + urlUserSection[1] 
 									+ ". ManagerID: " + urlUserSection[2]
 									+ ". Status ID: " + urlUserSection[3]
-											);
+							);
 //							reimbController.findTicketsFromEmployee(response, urlUserSection[1].toLowerCase());
 							reimbController.editTicket(response, urlUserSection[1], urlUserSection[2], urlUserSection[3]);
 							System.out.println("Servlet Manager hits editTicket route successfully");
 							log.info("Servlet Manager hits editTicket route successfully");
+							
+						} else if (request.getMethod().equals("GET")) {
+							System.out.println("Route hit. 1: " + urlUserSection[1] 
+									+ ". 2: " + urlUserSection[2]
+//									+ ". 3: " + urlUserSection[3]
+							);
+							
+							//Sort Tickets
+							if (urlUserSection[1].equals("sortTicket")) {
+								reimbController.sortTickets(response, urlUserSection[2]);
+								System.out.println("Servlet Manager hits sortTickets route successfully");
+								log.info("Servlet Manager hits sortTickets route successfully");
+							}
 						}
+						
 					}
 					break;
 					
@@ -170,6 +185,11 @@ public class FrontControlServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		doGet(request,response);
+	}
+	
+	@Override
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		doGet(request,response);
 	}
 }

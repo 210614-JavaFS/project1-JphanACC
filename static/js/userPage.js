@@ -46,7 +46,7 @@ async function checkSessions() {
         }
         if (userData.user_role_id == 2) {
             $('div.manager-row').fadeIn();
-            $('.welcome-manager').text(`Welcome back, ${userData.ers_username}`);
+            $('#managerUserName').text(userData.ers_username);
             $('#managerID').text(userData.ers_user_id);
             $('#managerFirstName').text(userData.user_first_name);
             $('#managerLastName').text(userData.user_last_name);
@@ -131,7 +131,7 @@ async function retrieveAllTickets(managerID) {
 
     let responseTicket = await fetch(URL + 'manager');
     if (responseTicket.status == 200) {
-        console.log('Did I hit?');
+        console.log('Retrieve all tickets hit');
 
         let reimbList = await responseTicket.json();
         populateManagerTicketTable(reimbList, managerID);
@@ -142,6 +142,44 @@ async function retrieveAllTickets(managerID) {
     }
 }
 
+//retrieve all Tickets based on status
+async function filterTable() {
+
+    let statusID = document.getElementById("filterList").value;
+    let managerID = userData.ers_user_id;
+
+    let responseTicket = await fetch(URL + 'manager/sortTicket/' + statusID);
+
+    if (responseTicket.status == 200) {
+        console.log('Sort Ticket hit');
+
+        let reimbList = await responseTicket.json();
+        populateManagerTicketTable(reimbList, managerID);
+        console.log(reimbList);
+
+    } else {
+        console.log(`Can't get response. Status is ${response.status}`);
+    }
+
+}
+//Edit Ticket
+async function editTicket(ticketID, managerID, ticketStatus) {
+    console.log(`Ticket ID is ${ticketID}, ManagerID is ${managerID}, Status is ${ticketStatus}`);
+    console.log(`${URL}manager/${ticketID}/${managerID}/${ticketStatus}`)
+    let response = await fetch(URL + `manager/${ticketID}/${managerID}/${ticketStatus}`, {
+        method: 'PUT'
+    });
+
+    if (response.status === 201) {
+        console.log("Edit Ticket request is succesful gone through");
+        alert("Edit Ticket request is succesful gone through");
+        setTimeout("location.reload(true);", 2);
+    } else {
+        console.log('Edit Ticket request failed...');
+        alert("Edit Ticket request failed...");
+    }
+
+}
 //NOTE. Other features
 function populateEmployeeTicketList(data) {
     let ticketBody = document.getElementById("ticketEmployeeBody");
@@ -266,19 +304,4 @@ function populateManagerTicketTable(data, managerID) {
     }
 }
 
-
-async function editTicket(ticketID, managerID, ticketStatus) {
-    console.log(`Ticket ID is ${ticketID}, ManagerID is ${managerID}, Status is ${ticketStatus}`);
-    console.log(`${URL}manager/${ticketID}/${managerID}/${ticketStatus}`)
-    let response = await fetch(URL + `manager/${ticketID}/${managerID}/${ticketStatus}`);
-
-    if (response.status === 201) {
-        console.log("Edit Ticket request is succesful gone through");
-        alert("Edit Ticket request is succesful gone through");
-        setTimeout("location.reload(true);", 5);
-    } else {
-        console.log('Edit Ticket request failed...');
-        alert("Edit Ticket request failed...");
-    }
-
-}
+//NOTE. Extra

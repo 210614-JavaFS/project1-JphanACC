@@ -25,4 +25,8 @@ public class ReimbService {
 	public boolean editReimbStatus(int reimbID, int managerID, int statusID) {
 		return reimbDao.editReimbStatus(reimbID, managerID, statusID);
 	}
+	
+	public List<Reimbursement> getAllReimbFiltered(int statusInput) {
+		return reimbDao.getAllReimbFiltered(statusInput);
+	}
 }

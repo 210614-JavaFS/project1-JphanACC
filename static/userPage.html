@@ -18,6 +18,7 @@
 
 <body class="grad-blue" onload="checkSessions()">
     <div class="container" style="padding:20vh 0 0 0">
+        <!-- Title Page -->
         <div class="row">
             <div class="col">
                 <div class="d-flex justify-content-center">
@@ -26,7 +27,10 @@
                 </div>
             </div>
         </div>
+
+        <!-- Real Body -->
         <div class="row">
+
             <!-- Employee -->
             <!-- User Details Section -->
             <div class="col-sm-4 employee-row">
@@ -36,7 +40,7 @@
                         <h3 class="">User Details</h3>
                     </div>
                     <div class="justify-content-center">
-                        <span>Usernamme: </span>
+                        <span>Username: </span>
                         <span id="employeeUserName"></span> <br>
                         <span>User ID: </span>
                         <span id="employeeID"></span> <br>
@@ -93,6 +97,8 @@
                         <h3 class="welcome-manager"></h3>
                     </div>
                     <div class="justify-content-center">
+                        <span>Username: </span>
+                        <span id="managerUserName"></span> <br>
                         <span>User ID: </span>
                         <span id="managerID"></span> <br>
                         <span>User First Name: </span>
@@ -117,12 +123,19 @@
 
                             <!-- Table -->
                             <div class="row">
-                                <table class="table">
+                                <table class="table" id="managerTable">
                                     <thead>
                                         <tr>
                                             <th class="col-sm-2">Ticket ID</th>
                                             <th class="col-sm-2">Reimburse Amount</th>
-                                            <th class="col-sm-2">Ticket Status</th>
+                                            <th class="col-sm-2">
+                                                <select class='form-select' id="filterList" onchange='filterTable()'>
+                                                    <option disabled selected>Filter</option>
+                                                    <option value="0">Pending</option>
+                                                    <option value="1">Resolved</option> 
+                                                    <option value="2">Denied</option>
+                                                </select> Ticket Status
+                                            </th>
                                             <th class="col-sm-3">Ticket Description</th>
                                             <th class="col-sm-2">Ticket Author</th>
                                             <th class="col-sm-2">Ticket Resolver</th>
@@ -138,6 +151,8 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
 
 

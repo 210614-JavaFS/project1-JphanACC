@@ -84,6 +84,14 @@ public class ReimbController {
 		}
 	}
 
-
+	public void sortTickets(HttpServletResponse response, String statusInput) throws IOException {
+		int status = Integer.parseInt(statusInput);
+		
+		List<Reimbursement> reimbList = reimbService.getAllReimbFiltered(status);
+		
+		String json = objectMapper.writeValueAsString(reimbList);
+		response.getWriter().print(json);
+		response.setStatus(200);
+	}
 
 }
