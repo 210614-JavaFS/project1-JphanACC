@@ -9,7 +9,7 @@
   
   <!-- This is a file appender that will print to a file. -->
    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs\\log.txt</file>
+        <file>C:\\Users\\jphan\\OneDrive\\studies\\Rev\\Project\\project1-JphanACC\\logs\\loggers.log</file>
         <append>true</append>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%mdc] [%thread] %-5level %logger{36} - %msg%n</pattern>
@@ -20,4 +20,8 @@
     <appender-ref ref="STDOUT" />
     <appender-ref ref="FILE" />
   </root>
+  <logger level="all">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+</logger>
 </configuration>
